@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Analytics Beacon Creator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1 data-i18n="title">Adobe Analytics Beacon Creator</h1>
+        <div class="header-controls">
+            <button type="button" id="lang-toggle" class="btn btn-secondary">
+                <span id="lang-label">EN</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Configuration Section -->
+        <section class="section" id="config-section">
+            <h2 data-i18n="config.title">Configuration</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="rsid" data-i18n="config.rsid">Report Suite ID</label>
+                    <input type="text" id="rsid" name="rsid" placeholder="rsid1,rsid2">
+                    <small data-i18n="config.rsidHelp">Multiple RSIDs separated by comma</small>
+                </div>
+                <div class="form-group">
+                    <label for="trackingServer" data-i18n="config.trackingServer">Tracking Server</label>
+                    <input type="text" id="trackingServer" name="trackingServer" placeholder="metrics.example.com">
+                </div>
+                <div class="form-group">
+                    <label for="secureServer" data-i18n="config.secureServer">Secure Tracking Server</label>
+                    <input type="text" id="secureServer" name="secureServer" placeholder="smetrics.example.com">
+                </div>
+                <div class="form-group form-group-checkbox">
+                    <label>
+                        <input type="checkbox" id="useSecure" name="useSecure" checked>
+                        <span data-i18n="config.useSecure">Use HTTPS</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sending Mode Section -->
+        <section class="section" id="mode-section">
+            <h2 data-i18n="mode.title">Sending Mode</h2>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="sendMode" value="imageRequest" checked>
+                    <span data-i18n="mode.imageRequest">Direct Image Request</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="sendMode" value="appMeasurement">
+                    <span data-i18n="mode.appMeasurement">AppMeasurement.js</span>
+                </label>
+            </div>
+
+            <!-- AppMeasurement specific options -->
+            <div id="appMeasurementOptions" class="sub-options hidden">
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="trackType" value="pageView" checked>
+                        <span data-i18n="mode.pageView">Page View (s.t())</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="trackType" value="linkTrack">
+                        <span data-i18n="mode.linkTrack">Link Track (s.tl())</span>
+                    </label>
+                </div>
+                <div id="linkTrackOptions" class="sub-options hidden">
+                    <div class="form-group">
+                        <label for="linkType" data-i18n="mode.linkType">Link Type</label>
+                        <select id="linkType" name="linkType">
+                            <option value="o">Custom Link (o)</option>
+                            <option value="d">Download Link (d)</option>
+                            <option value="e">Exit Link (e)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="linkName" data-i18n="mode.linkName">Link Name</label>
+                        <input type="text" id="linkName" name="linkName" placeholder="Custom Link">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Basic Variables Section -->
+        <section class="section" id="basic-variables">
+            <h2 data-i18n="basic.title">Basic Variables</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="pageName" data-i18n="basic.pageName">pageName</label>
+                    <input type="text" id="pageName" name="pageName" placeholder="Home Page">
+                </div>
+                <div class="form-group">
+                    <label for="channel" data-i18n="basic.channel">channel</label>
+                    <input type="text" id="channel" name="channel" placeholder="Products">
+                </div>
+                <div class="form-group">
+                    <label for="server" data-i18n="basic.server">server</label>
+                    <input type="text" id="server" name="server" placeholder="www.example.com">
+                </div>
+                <div class="form-group">
+                    <label for="pageType" data-i18n="basic.pageType">pageType</label>
+                    <input type="text" id="pageType" name="pageType" placeholder="errorPage">
+                </div>
+                <div class="form-group">
+                    <label for="pageURL" data-i18n="basic.pageURL">pageURL</label>
+                    <input type="text" id="pageURL" name="pageURL" placeholder="https://example.com/page">
+                </div>
+                <div class="form-group">
+                    <label for="referrer" data-i18n="basic.referrer">referrer</label>
+                    <input type="text" id="referrer" name="referrer" placeholder="https://google.com">
+                </div>
+                <div class="form-group">
+                    <label for="campaign" data-i18n="basic.campaign">campaign</label>
+                    <input type="text" id="campaign" name="campaign" placeholder="email_campaign_123">
+                </div>
+                <div class="form-group">
+                    <label for="purchaseID" data-i18n="basic.purchaseID">purchaseID</label>
+                    <input type="text" id="purchaseID" name="purchaseID" placeholder="order123">
+                </div>
+                <div class="form-group">
+                    <label for="transactionID" data-i18n="basic.transactionID">transactionID</label>
+                    <input type="text" id="transactionID" name="transactionID" placeholder="trans456">
+                </div>
+                <div class="form-group">
+                    <label for="visitorID" data-i18n="basic.visitorID">visitorID</label>
+                    <input type="text" id="visitorID" name="visitorID" placeholder="12345678901234567">
+                </div>
+                <div class="form-group">
+                    <label for="characterSet" data-i18n="basic.characterSet">characterSet</label>
+                    <input type="text" id="characterSet" name="characterSet" value="UTF-8">
+                </div>
+            </div>
+        </section>
+
+        <!-- eVars Section -->
+        <section class="section" id="evars-section">
+            <div class="section-header">
+                <h2 data-i18n="evars.title">eVars (Conversion Variables)</h2>
+                <button type="button" id="add-evar-btn" class="btn btn-add" data-i18n="common.add">+ Add</button>
+            </div>
+            <div id="evars-container" class="dynamic-fields-container">
+                <!-- Dynamic eVar fields will be added here -->
+            </div>
+        </section>
+
+        <!-- Props Section -->
+        <section class="section" id="props-section">
+            <div class="section-header">
+                <h2 data-i18n="props.title">Props (Traffic Variables)</h2>
+                <button type="button" id="add-prop-btn" class="btn btn-add" data-i18n="common.add">+ Add</button>
+            </div>
+            <div id="props-container" class="dynamic-fields-container">
+                <!-- Dynamic prop fields will be added here -->
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section class="section" id="events-section">
+            <div class="section-header">
+                <h2 data-i18n="events.title">Events</h2>
+                <button type="button" id="add-event-btn" class="btn btn-add" data-i18n="common.add">+ Add</button>
+            </div>
+            <div id="events-container" class="dynamic-fields-container">
+                <!-- Dynamic event fields will be added here -->
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="section" id="products-section">
+            <div class="section-header">
+                <h2 data-i18n="products.title">Products</h2>
+                <button type="button" id="add-product-btn" class="btn btn-add" data-i18n="common.add">+ Add</button>
+            </div>
+            <p class="help-text" data-i18n="products.help">Format: Category;Product;Quantity;Price;Events;eVars</p>
+            <div id="products-container" class="dynamic-fields-container">
+                <!-- Dynamic product fields will be added here -->
+            </div>
+        </section>
+
+        <!-- List Variables Section -->
+        <section class="section" id="list-section">
+            <h2 data-i18n="list.title">List Variables</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="list1" data-i18n="list.list1">list1</label>
+                    <input type="text" id="list1" name="list1" placeholder="value1,value2,value3">
+                    <small data-i18n="list.delimiter">Delimiter: comma (,)</small>
+                </div>
+                <div class="form-group">
+                    <label for="list2" data-i18n="list.list2">list2</label>
+                    <input type="text" id="list2" name="list2" placeholder="value1,value2,value3">
+                </div>
+                <div class="form-group">
+                    <label for="list3" data-i18n="list.list3">list3</label>
+                    <input type="text" id="list3" name="list3" placeholder="value1,value2,value3">
+                </div>
+            </div>
+        </section>
+
+        <!-- Context Data Section -->
+        <section class="section" id="context-section">
+            <div class="section-header">
+                <h2 data-i18n="context.title">Context Data</h2>
+                <button type="button" id="add-context-btn" class="btn btn-add" data-i18n="common.add">+ Add</button>
+            </div>
+            <div id="context-container" class="dynamic-fields-container">
+                <!-- Dynamic context data fields will be added here -->
+            </div>
+        </section>
+
+        <!-- Template Section -->
+        <section class="section" id="template-section">
+            <h2 data-i18n="template.title">Templates</h2>
+            <div class="template-controls">
+                <div class="form-group template-save-group">
+                    <input type="text" id="templateName" placeholder="Template Name">
+                    <button type="button" id="save-template-btn" class="btn btn-secondary" data-i18n="template.save">Save Template</button>
+                </div>
+            </div>
+            <div id="template-list" class="template-list">
+                <!-- Template list will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Preview Section -->
+        <section class="section" id="preview-section">
+            <h2 data-i18n="preview.title">Request Preview</h2>
+            <div id="preview-output" class="preview-output">
+                <p class="placeholder-text" data-i18n="preview.placeholder">Click "Preview" to see the generated request</p>
+            </div>
+            <div id="url-length" class="url-length hidden">
+                <span data-i18n="preview.urlLength">URL Length:</span> <span id="url-length-value">0</span> <span data-i18n="preview.characters">characters</span>
+                <span id="url-warning" class="warning hidden" data-i18n="preview.urlWarning">Warning: URL exceeds 2048 characters</span>
+            </div>
+        </section>
+
+        <!-- Actions Section -->
+        <section class="section actions-section" id="actions-section">
+            <button type="button" id="preview-btn" class="btn btn-primary" data-i18n="actions.preview">Preview</button>
+            <button type="button" id="send-btn" class="btn btn-success" data-i18n="actions.send">Send Beacon</button>
+            <button type="button" id="clear-btn" class="btn btn-secondary" data-i18n="actions.clear">Clear Form</button>
+            <button type="button" id="copy-btn" class="btn btn-secondary" data-i18n="actions.copy">Copy to Clipboard</button>
+        </section>
+
+        <!-- Status Section -->
+        <section class="section" id="status-section">
+            <div id="status-output" class="status-output">
+                <!-- Status messages will appear here -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Adobe Analytics Beacon Creator v1.0</p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/config.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/dynamicFields.js"></script>
+    <script src="js/variableBuilder.js"></script>
+    <script src="js/imageRequest.js"></script>
+    <script src="js/appMeasurement.js"></script>
+    <script src="js/previewGenerator.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

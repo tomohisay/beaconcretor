@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Claude Code settings
+.claude/
+
+# AppMeasurement.js (user must provide their own)
+vendor/AppMeasurement.js

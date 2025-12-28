@@ -20,10 +20,23 @@ const I18n = {
             'mode.title': '送信モード',
             'mode.imageRequest': '直接イメージリクエスト',
             'mode.appMeasurement': 'AppMeasurement.js',
+            'mode.webSdk': 'Web SDK (adobedc.net)',
             'mode.pageView': 'ページビュー (s.t())',
             'mode.linkTrack': 'リンクトラック (s.tl())',
             'mode.linkType': 'リンクタイプ',
             'mode.linkName': 'リンク名',
+
+            // Web SDK
+            'websdk.datastreamId': 'Datastream ID',
+            'websdk.datastreamIdHelp': '必須: Adobe Experience Platform Data Collectionから取得',
+            'websdk.orgId': 'IMS Org ID',
+            'websdk.edgeDomain': 'Edge ドメイン',
+            'websdk.edgeDomainHelp': 'デフォルト: edge.adobedc.net（または1st-partyドメイン）',
+            'websdk.eventPageView': 'ページビュー',
+            'websdk.eventLinkClick': 'リンククリック',
+            'websdk.eventCustom': 'カスタムイベント',
+            'websdk.datastreamRequired': 'Datastream IDは必須です',
+            'websdk.invalidDatastreamId': 'Datastream IDの形式が無効です（UUID形式）',
 
             // Basic variables
             'basic.title': '基本変数',
@@ -132,10 +145,23 @@ const I18n = {
             'mode.title': 'Sending Mode',
             'mode.imageRequest': 'Direct Image Request',
             'mode.appMeasurement': 'AppMeasurement.js',
+            'mode.webSdk': 'Web SDK (adobedc.net)',
             'mode.pageView': 'Page View (s.t())',
             'mode.linkTrack': 'Link Track (s.tl())',
             'mode.linkType': 'Link Type',
             'mode.linkName': 'Link Name',
+
+            // Web SDK
+            'websdk.datastreamId': 'Datastream ID',
+            'websdk.datastreamIdHelp': 'Required: From Adobe Experience Platform Data Collection',
+            'websdk.orgId': 'IMS Org ID',
+            'websdk.edgeDomain': 'Edge Domain',
+            'websdk.edgeDomainHelp': 'Default: edge.adobedc.net (or your 1st-party domain)',
+            'websdk.eventPageView': 'Page View',
+            'websdk.eventLinkClick': 'Link Click',
+            'websdk.eventCustom': 'Custom Event',
+            'websdk.datastreamRequired': 'Datastream ID is required',
+            'websdk.invalidDatastreamId': 'Invalid Datastream ID format (must be UUID)',
 
             // Basic variables
             'basic.title': 'Basic Variables',

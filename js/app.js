@@ -72,12 +72,17 @@ const App = {
     updateModeVisibility() {
         const mode = document.querySelector('input[name="sendMode"]:checked')?.value;
         const appMeasurementOptions = document.getElementById('appMeasurementOptions');
+        const webSdkOptions = document.getElementById('webSdkOptions');
+
+        // Hide all mode-specific options first
+        appMeasurementOptions?.classList.add('hidden');
+        webSdkOptions?.classList.add('hidden');
 
         if (mode === 'appMeasurement') {
             appMeasurementOptions?.classList.remove('hidden');
             this.updateTrackTypeVisibility();
-        } else {
-            appMeasurementOptions?.classList.add('hidden');
+        } else if (mode === 'webSdk') {
+            webSdkOptions?.classList.remove('hidden');
         }
     },
 
@@ -120,16 +125,28 @@ const App = {
      */
     handlePreview() {
         const data = VariableBuilder.collectFormData();
-        const validation = VariableBuilder.validateConfig(data.config);
-
-        if (!validation.valid) {
-            this.showStatus('error', validation.message);
-            return;
-        }
-
         const mode = data.mode.sendMode;
-        const preview = PreviewGenerator.generate(mode, data.config, data, data.mode);
-        PreviewGenerator.render(preview);
+
+        // Validate based on mode
+        if (mode === 'webSdk') {
+            const webSdkConfig = WebSdk.getConfig();
+            const validation = WebSdk.validateConfig(webSdkConfig);
+            if (!validation.valid) {
+                this.showStatus('error', validation.message);
+                return;
+            }
+            const eventType = WebSdk.getEventType();
+            const preview = PreviewGenerator.generateWebSdkPreview(webSdkConfig, data, eventType);
+            PreviewGenerator.render(preview);
+        } else {
+            const validation = VariableBuilder.validateConfig(data.config);
+            if (!validation.valid) {
+                this.showStatus('error', validation.message);
+                return;
+            }
+            const preview = PreviewGenerator.generate(mode, data.config, data, data.mode);
+            PreviewGenerator.render(preview);
+        }
 
         this.showStatus('info', I18n.t('preview.title'));
     },
@@ -139,16 +156,40 @@ const App = {
      */
     async handleSend() {
         const data = VariableBuilder.collectFormData();
-        const validation = VariableBuilder.validateConfig(data.config);
-
-        if (!validation.valid) {
-            this.showStatus('error', validation.message);
-            return;
-        }
-
         const mode = data.mode.sendMode;
 
-        if (mode === 'imageRequest') {
+        if (mode === 'webSdk') {
+            // Web SDK mode
+            const webSdkConfig = WebSdk.getConfig();
+            const validation = WebSdk.validateConfig(webSdkConfig);
+
+            if (!validation.valid) {
+                this.showStatus('error', validation.message);
+                return;
+            }
+
+            const eventType = WebSdk.getEventType();
+
+            // Show preview first
+            const preview = PreviewGenerator.generateWebSdkPreview(webSdkConfig, data, eventType);
+            PreviewGenerator.render(preview);
+
+            // Send the beacon
+            const result = await WebSdk.send(webSdkConfig, data, eventType);
+
+            if (result.success) {
+                this.showStatus('success', result.message + (result.note ? ' ' + result.note : ''));
+            } else {
+                this.showStatus('error', I18n.t('status.error') + result.error);
+            }
+        } else if (mode === 'imageRequest') {
+            // Validate config for traditional modes
+            const validation = VariableBuilder.validateConfig(data.config);
+            if (!validation.valid) {
+                this.showStatus('error', validation.message);
+                return;
+            }
+
             // Direct image request
             const url = ImageRequest.buildURL(data.config, data);
 
@@ -166,6 +207,12 @@ const App = {
             }
         } else {
             // AppMeasurement mode
+            const validation = VariableBuilder.validateConfig(data.config);
+            if (!validation.valid) {
+                this.showStatus('error', validation.message);
+                return;
+            }
+
             if (AppMeasurementSender.checkLoaded()) {
                 // Initialize and send
                 if (AppMeasurementSender.initialize(data.config)) {

@@ -55,6 +55,10 @@
                     <input type="radio" name="sendMode" value="appMeasurement">
                     <span data-i18n="mode.appMeasurement">AppMeasurement.js</span>
                 </label>
+                <label class="radio-label">
+                    <input type="radio" name="sendMode" value="webSdk">
+                    <span data-i18n="mode.webSdk">Web SDK (adobedc.net)</span>
+                </label>
             </div>
 
             <!-- AppMeasurement specific options -->
@@ -82,6 +86,40 @@
                         <label for="linkName" data-i18n="mode.linkName">Link Name</label>
                         <input type="text" id="linkName" name="linkName" placeholder="Custom Link">
                     </div>
+                </div>
+            </div>
+
+            <!-- Web SDK specific options -->
+            <div id="webSdkOptions" class="sub-options hidden">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="datastreamId" data-i18n="websdk.datastreamId">Datastream ID</label>
+                        <input type="text" id="datastreamId" name="datastreamId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                        <small data-i18n="websdk.datastreamIdHelp">Required: From Adobe Experience Platform Data Collection</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="orgId" data-i18n="websdk.orgId">IMS Org ID</label>
+                        <input type="text" id="orgId" name="orgId" placeholder="XXXXXXXXXXXXXXXXXXXXX@AdobeOrg">
+                    </div>
+                    <div class="form-group">
+                        <label for="edgeDomain" data-i18n="websdk.edgeDomain">Edge Domain</label>
+                        <input type="text" id="edgeDomain" name="edgeDomain" placeholder="edge.adobedc.net" value="edge.adobedc.net">
+                        <small data-i18n="websdk.edgeDomainHelp">Default: edge.adobedc.net (or your 1st-party domain)</small>
+                    </div>
+                </div>
+                <div class="radio-group" style="margin-top: 16px;">
+                    <label class="radio-label">
+                        <input type="radio" name="webSdkEventType" value="pageView" checked>
+                        <span data-i18n="websdk.eventPageView">Page View</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="webSdkEventType" value="linkClick">
+                        <span data-i18n="websdk.eventLinkClick">Link Click</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="webSdkEventType" value="custom">
+                        <span data-i18n="websdk.eventCustom">Custom Event</span>
+                    </label>
                 </div>
             </div>
         </section>
@@ -267,6 +305,7 @@
     <script src="js/variableBuilder.js"></script>
     <script src="js/imageRequest.js"></script>
     <script src="js/appMeasurement.js"></script>
+    <script src="js/webSdk.js"></script>
     <script src="js/previewGenerator.js"></script>
     <script src="js/app.js"></script>
 </body>

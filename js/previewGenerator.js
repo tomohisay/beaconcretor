@@ -61,6 +61,28 @@ const PreviewGenerator = {
     },
 
     /**
+     * Generate Web SDK preview
+     * @param {Object} config - Web SDK configuration
+     * @param {Object} data - Form data
+     * @param {string} eventType - Event type
+     * @returns {Object} Preview result
+     */
+    generateWebSdkPreview(config, data, eventType) {
+        const code = WebSdk.generateCode(config, data, eventType);
+        const curl = WebSdk.generateCurl(config, data, eventType);
+
+        const fullPreview = code + '\n\n// ---- cURL Command ----\n' + curl;
+
+        this.lastPreview = {
+            type: 'code',
+            code: fullPreview,
+            raw: fullPreview
+        };
+
+        return this.lastPreview;
+    },
+
+    /**
      * Format URL for display with syntax highlighting
      * @param {string} url - Raw URL
      * @returns {string} HTML formatted URL
